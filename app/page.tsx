@@ -142,7 +142,7 @@ export default function HomePage() {
             <div>
               CONNECT:{' '}
               <a className="underline underline-offset-4" href="mailto:hello@myllm.news">
-                hello@myllm.news
+                hello@askgizelle.com
               </a>
             </div>
             <div className="text-right">
