@@ -169,7 +169,7 @@ export const MinimalistHero = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(4.5rem,28vw,11rem)] font-extrabold leading-[0.88] tracking-tighter text-foreground"
+              className="text-[4.25rem] font-extrabold leading-[0.88] tracking-tighter text-foreground md:text-[8.5rem]"
             >
               {overlayText.part1}
               <br />

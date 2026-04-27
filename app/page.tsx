@@ -47,21 +47,22 @@ export default function HomePage() {
         <MinimalistHero
           logoText="@askgizelle"
           navLinks={[
-            { label: 'THE PROTOCOL', href: '#protocol' },
+            { label: 'SCENT LOGIC', href: '#scent-logic' },
             { label: 'THE SCIENCE', href: '#science' },
             { label: 'STRATEGY', href: '#strategy' },
             { label: 'SYSTEM ARCHITECTURE', href: '#system-architecture' },
             { label: 'CONNECT', href: '#contact' },
           ]}
-          mainText="Ever wonder why almost every man loves the smell of vanilla? It’s not just because it’s sweet. Psychologists believe it’s a 'Comfort Trigger.' Vanilla is one of the closest scents in nature to the sweetness of human breast milk. When a man smells warm, subtle vanilla or musk, his brain releases Oxytocin—the bonding hormone. It lowers his guard and makes him want to move closer, whereas sharp, chemical florals trigger an 'alarm' response that makes him back away."
-          readMoreLink="#protocol"
-          readMoreText="→ ACCESS SYSTEM PROTOCOL"
+          mainText="Attraction is not a choice; it is a chemical architecture. While the rational brain processes logic, the Limbic System responds to deep biological signatures—sight, sound, and scent—that bypass conscious thought.
+The Man Manual decodes these masculine triggers, providing a systematic protocol for aligning your biological presence with the ancient seat of human emotion and memory."
+          readMoreLink="#scent-logic"
+          readMoreText="→ DOWNLOAD MODULE 01: SCENT LOGIC"
           imageSrc="/images/avatar-hero.png"
           imageAlt="Talking head avatar portrait"
           overlayText={
             isStrategyInView
               ? { part1: 'SYSTEM', part2: 'LOGIC' }
-              : { part1: 'SCENT', part2: 'LOGIC' }
+              : { part1: 'MAN', part2: 'MANUAL' }
           }
           socialLinks={[
             { icon: Instagram, href: 'https://instagram.com/askgizelle' },
@@ -78,10 +79,10 @@ export default function HomePage() {
           <CtaCard
             imageSrc="/images/protocol-download.png"
             imageAlt="Protocol 01 visual"
-            title="PROTOCOL 01"
-            subtitle="THE PROTOCOL"
+            title="MODULE 01"
+            subtitle="SCENT LOGIC"
             description="Download the free protocol and start mapping the scent-to-signal pathway that builds digital authority."
-            buttonText="→ ACCESS PROTOCOL 01"
+            buttonText="→ SCENT LOGIC"
             onButtonClick={() => {
               window.open('/images/protocol-download.png', '_blank', 'noopener,noreferrer');
             }}
