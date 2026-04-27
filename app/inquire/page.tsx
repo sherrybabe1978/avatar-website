@@ -9,14 +9,44 @@ export default function InquirePage() {
   const [budget, setBudget] = useState('');
   const [brandStage, setBrandStage] = useState('');
   const [details, setDetails] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Scent Logic Intake — ${name || 'New Lead'}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nMonthly Budget: ${budget}\nBrand Stage: ${brandStage}\nDetails: ${details}`
-    );
-    window.location.href = `mailto:hello@myllm.news?subject=${subject}&body=${body}`;
+    setIsSubmitting(true);
+    setMessage('');
+
+    try {
+      const response = await fetch('/api/inquire', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          budget,
+          brandStage,
+          details,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit intake form.');
+      }
+
+      setMessage('Thanks, your intake has been sent.');
+      setName('');
+      setEmail('');
+      setBudget('');
+      setBrandStage('');
+      setDetails('');
+    } catch {
+      setMessage('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -115,10 +145,12 @@ export default function InquirePage() {
 
             <button
               type="submit"
+              disabled={isSubmitting}
               className="md:col-span-2 inline-flex w-fit items-center border border-white/30 bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:opacity-90"
             >
-              Submit Intake
+              {isSubmitting ? 'Submitting...' : 'Submit Intake'}
             </button>
+            {message ? <p className="md:col-span-2 text-sm text-foreground/75">{message}</p> : null}
           </form>
         </div>
       </div>
