@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Script from 'next/script';
 import { FormEvent, useState } from 'react';
 
 export default function InquirePage() {
@@ -11,6 +12,7 @@ export default function InquirePage() {
   const [details, setDetails] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState('');
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,6 +20,14 @@ export default function InquirePage() {
     setMessage('');
 
     try {
+      const formData = new FormData(e.currentTarget);
+      const turnstileToken = formData.get('cf-turnstile-response');
+
+      if (!turnstileToken || typeof turnstileToken !== 'string') {
+        setMessage('Please complete the security check.');
+        return;
+      }
+
       const response = await fetch('/api/inquire', {
         method: 'POST',
         headers: {
@@ -29,6 +39,7 @@ export default function InquirePage() {
           budget,
           brandStage,
           details,
+          turnstileToken,
         }),
       });
 
@@ -51,6 +62,7 @@ export default function InquirePage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background px-6 py-10 text-foreground md:px-12">
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
         <div className="absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
@@ -142,6 +154,15 @@ export default function InquirePage() {
                 placeholder="Current audience, goals, timeline..."
               />
             </label>
+            {turnstileSiteKey ? (
+              <div className="md:col-span-2">
+                <div className="cf-turnstile" data-sitekey={turnstileSiteKey} />
+              </div>
+            ) : (
+              <p className="md:col-span-2 text-sm text-foreground/75">
+                Missing NEXT_PUBLIC_TURNSTILE_SITE_KEY.
+              </p>
+            )}
 
             <button
               type="submit"
