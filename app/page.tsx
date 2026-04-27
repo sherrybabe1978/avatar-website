@@ -65,10 +65,10 @@ export default function HomePage() {
           }
           socialLinks={[
             { icon: Instagram, href: 'https://instagram.com/askgizelle' },
-            { icon: Mail, href: 'mailto:hello@myllm.news' },
+            { icon: Mail, href: 'mailto:hello@askgizelle.com' },
             { icon: MessageCircle, href: '#contact' },
           ]}
-          locationText="@askgiselle"
+          locationText="@askgizelle"
           className="font-['Inter',_'Montserrat',_sans-serif]"
         />
       </section>
@@ -141,7 +141,7 @@ export default function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-foreground/75">
             <div>
               CONNECT:{' '}
-              <a className="underline underline-offset-4" href="mailto:hello@myllm.news">
+              <a className="underline underline-offset-4" href="mailto:hello@askgizelle.com">
                 hello@askgizelle.com
               </a>
             </div>
