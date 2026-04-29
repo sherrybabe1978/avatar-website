@@ -53,8 +53,7 @@ export default function HomePage() {
             { label: 'SYSTEM ARCHITECTURE', href: '#system-architecture' },
             { label: 'CONNECT', href: '#contact' },
           ]}
-          mainText="Attraction is not a choice; it is a chemical architecture. While the rational brain processes logic, the Limbic System responds to deep biological signatures—sight, sound, and scent—that bypass conscious thought.
-The Man Manual decodes these masculine triggers, providing a systematic protocol for aligning your biological presence with the ancient seat of human emotion and memory."
+          mainText="The Man Manual decodes these masculine triggers, providing a systematic protocol for aligning your biological presence with the ancient seat of human emotion and memory."
           readMoreLink="#scent-logic"
           readMoreText="→ DOWNLOAD MODULE 01: SCENT LOGIC"
           imageSrc="/images/avatar-hero.png"
@@ -77,7 +76,7 @@ The Man Manual decodes these masculine triggers, providing a systematic protocol
       <section id="protocol" className="px-6 py-20 md:px-12">
         <div className="mx-auto max-w-5xl">
           <CtaCard
-            imageSrc="/images/protocol-download.png"
+            imageSrc="/images/box1.jpg"
             imageAlt="Protocol 01 visual"
             title="MODULE 01"
             subtitle="SCENT LOGIC"
