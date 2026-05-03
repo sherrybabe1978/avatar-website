@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { Mail, MessageCircle } from 'lucide-react';
 import { MinimalistHero } from '@/components/sections/hero';
 import { CtaCard } from '@/components/ui/cta-card';
+import { ScrollTopButton } from '@/components/ui/scroll-top-button';
+import { WaitlistSignup } from '@/components/ui/waitlist-signup';
 
 const Instagram = ({ className }: { className?: string }) => (
   <svg
@@ -19,7 +21,6 @@ const Instagram = ({ className }: { className?: string }) => (
 
 export default function HomePage() {
   const [isStrategyInView, setIsStrategyInView] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     const architectureSection = document.getElementById('system-architecture');
@@ -34,38 +35,27 @@ export default function HomePage() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 500);
-    onScroll();
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <main className="bg-background text-foreground">
       <section id="top">
         <MinimalistHero
           logoText="@askgizelle"
           navLinks={[
-            { label: 'SCENT LOGIC', href: '#scent-logic' },
-            { label: 'THE SCIENCE', href: '#science' },
-            { label: 'STRATEGY', href: '#strategy' },
-            { label: 'SYSTEM ARCHITECTURE', href: '#system-architecture' },
+            { label: 'PROTOCOLS', href: '#protocols' },
+            { label: 'THE SCIENCE', href: '/science' },
+            { label: 'THE FRAMEWORK', href: '/framework' },
+            { label: 'INNER CIRCLE', href: '#inner-circle' },
             { label: 'CONNECT', href: '#contact' },
           ]}
-          mainText="The Man Manual decodes these masculine triggers, providing a systematic protocol for aligning your biological presence with the ancient seat of human emotion and memory."
-          readMoreLink="#scent-logic"
-          readMoreText="→ DOWNLOAD MODULE 01: SCENT LOGIC"
+          mainText="Gizelle has decoded the underlying protocols that govern perception, presence, and influence. What appears as natural authority or effortless charisma is in fact precise architecture."
+          readMoreLink="#protocol"
+          readMoreText="→ ACCESS SYSTEM PROTOCOL"
           imageSrc="/images/avatar-hero.png"
           imageAlt="Talking head avatar portrait"
-          overlayText={
-            isStrategyInView
-              ? { part1: 'SYSTEM', part2: 'LOGIC' }
-              : { part1: 'MAN', part2: 'MANUAL' }
-          }
+          overlayText={{ part1: 'ARCHITECTURE', part2: '' }}
           socialLinks={[
             { icon: Instagram, href: 'https://instagram.com/askgizelle' },
-            { icon: Mail, href: 'mailto:hello@askgizelle.com' },
+            { icon: Mail, href: 'mailto:hello@myllm.news' },
             { icon: MessageCircle, href: '#contact' },
           ]}
           locationText="@askgizelle"
@@ -76,12 +66,12 @@ export default function HomePage() {
       <section id="protocol" className="px-6 py-20 md:px-12">
         <div className="mx-auto max-w-5xl">
           <CtaCard
-            imageSrc="/images/box1.jpg"
+            imageSrc="/images/protocol-download.png"
             imageAlt="Protocol 01 visual"
-            title="MODULE 01"
-            subtitle="SCENT LOGIC"
+            title="PROTOCOL 01"
+            subtitle="THE PROTOCOL"
             description="Download the free protocol and start mapping the scent-to-signal pathway that builds digital authority."
-            buttonText="→ SCENT LOGIC"
+            buttonText="→ ACCESS PROTOCOL 01"
             onButtonClick={() => {
               window.open('/images/protocol-download.png', '_blank', 'noopener,noreferrer');
             }}
@@ -92,47 +82,75 @@ export default function HomePage() {
       <section id="science" className="px-6 py-20 md:px-12">
         <div className="mx-auto max-w-5xl">
           <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">THE SCIENCE</p>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">THE BIOLOGICAL BLUEPRINT</h2>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">THE SCIENCE</h2>
           <p className="mt-6 max-w-4xl text-lg leading-relaxed text-foreground/80">
-            Attraction is not a choice; it is a chemical reaction. While the rational 
-            brain processes words and logic, the Olfactory System sends signals directly 
-            to the Limbic System; the brain’s ancient seat of emotion, memory, and desire.
+            The protocols are grounded in how perception, memory, and decision-making actually work.
           </p>
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            Each layer targets a specific psychological mechanism — from olfactory imprinting to visual hierarchy and tonal influence — so the framework produces consistent results rather than random outcomes.
+          </p>
+          <a href="/science" className="mt-6 inline-block text-sm font-medium text-foreground underline decoration-from-font">
+            → READ THE RESEARCH
+          </a>
         </div>
       </section>
 
-      <section id="strategy" className="px-6 py-20 md:px-12">
+      <section id="protocols" className="px-6 py-20 md:px-12">
         <div className="mx-auto max-w-5xl">
-          <CtaCard
-            imageSrc="/images/box2.jpg"
-            imageAlt="Management and architecture visual"
-            title="STRATEGY"
-            subtitle="MANAGEMENT & ARCHITECTURE"
-            description="We offer bespoke brand architecture for elite creators. From synthetic persona incubation to full-scale system management, we build the 'Scent' of your brand from the ground up."
-            buttonText="→ INQUIRE FOR PARTNERSHIP"
-            onButtonClick={() => {
-              window.location.assign('/inquire');
-            }}
-          />
+          <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">PROTOCOLS</p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">PROTOCOLS</h2>
+          <p className="mt-6 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            Gizelle’s system is built from precise, sequential protocols.
+          </p>
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            Each protocol is a standalone architectural layer. When applied in order, they form a complete framework for engineered perception and influence.
+          </p>
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            Protocol 01 is available now at no cost. All subsequent protocols are released exclusively inside the full System Architecture and the Inner Circle.
+          </p>
+          <a
+            href="/images/protocol-download.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-block text-sm font-medium text-foreground underline decoration-from-font"
+          >
+            → ACCESS PROTOCOL 01
+          </a>
         </div>
       </section>
 
       <section id="system-architecture" className="border-y border-white/10 bg-[#070b10] px-6 py-20 md:px-12">
         <div className="mx-auto max-w-5xl">
-          <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">The Engine</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">THE FRAMEWORK</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">SYSTEM ARCHITECTURE</h2>
           <p className="mt-6 max-w-4xl text-lg leading-relaxed text-foreground/80">
-            We engineer Digital Authority through the lens of psychology and AI. Our agency builds high-fidelity personas and
-            automated influence engines that turn audiences into ecosystems. We design the architecture; you own the
-            influence.
+            A complete, sequential framework of protocols that governs perception, presence, and influence from the first impression to lasting authority.
           </p>
-          <button
-            type="button"
-            onClick={() => window.location.assign('/inquire')}
-            className="mt-8 inline-flex items-center border border-white/30 bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-90"
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            Each protocol builds directly on the one before it. When applied in order, they form a repeatable system that can be engineered with precision instead of left to chance.
+          </p>
+          <p className="mt-4 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            This is not advice.
+            <br />
+            It is architecture.
+          </p>
+          <a
+            href="/framework"
+            className="mt-8 inline-block text-sm font-medium text-foreground underline decoration-from-font"
           >
-            INQUIRE FOR MANAGEMENT
-          </button>
+            → VIEW THE FULL FRAMEWORK
+          </a>
+        </div>
+      </section>
+
+      <section id="inner-circle" className="px-6 py-20 md:px-12">
+        <div className="mx-auto max-w-5xl">
+          <p className="text-xs uppercase tracking-[0.2em] text-foreground/60">INNER CIRCLE</p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">JOIN THE WAITLIST</h2>
+          <p className="mt-6 max-w-4xl text-lg leading-relaxed text-foreground/80">
+            Get notified when new positions open for full framework access and live guidance.
+          </p>
+          <WaitlistSignup source="landing" buttonLabel="Join the Waitlist" />
         </div>
       </section>
 
@@ -160,16 +178,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {showScrollTop ? (
-        <button
-          type="button"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-5 right-5 z-50 border border-white/25 bg-black/60 px-3 py-2 text-xs tracking-wide text-foreground backdrop-blur transition hover:bg-black/80"
-          aria-label="Scroll to top"
-        >
-          ↑ TOP
-        </button>
-      ) : null}
+      <ScrollTopButton />
     </main>
   );
 }

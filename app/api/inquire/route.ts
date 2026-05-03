@@ -1,61 +1,41 @@
-import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+interface InquirePayload {
+  name?: string;
+  email?: string;
+  budget?: string;
+  brandStage?: string;
+  details?: string;
+}
+
 export async function POST(request: Request) {
   try {
-    const { name, email, budget, brandStage, details, turnstileToken } = await request.json();
+    const { name, email, budget, brandStage, details } = (await request.json()) as InquirePayload;
 
-    if (!name || !email || !budget || !brandStage || !turnstileToken) {
-      return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
+    if (!name || !email || !budget || !brandStage) {
+      return Response.json({ error: 'Missing required fields.' }, { status: 400 });
     }
 
-    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
-    if (!turnstileSecret) {
-      return NextResponse.json({ error: 'Server captcha key is missing.' }, { status: 500 });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return Response.json({ error: 'Valid email is required.' }, { status: 400 });
     }
 
-    const verifyBody = new URLSearchParams({
-      secret: turnstileSecret,
-      response: turnstileToken,
-    });
-
-    const forwardedFor = request.headers.get('x-forwarded-for');
-    const ip = forwardedFor?.split(',')[0]?.trim();
-    if (ip) {
-      verifyBody.append('remoteip', ip);
+    if (!process.env.RESEND_API_KEY) {
+      return Response.json({ error: 'Resend is not configured.' }, { status: 500 });
     }
-
-    const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: verifyBody.toString(),
-    });
-    const turnstileData = await turnstileResponse.json();
-    if (!turnstileData.success) {
-      return NextResponse.json({ error: 'Captcha verification failed.' }, { status: 400 });
-    }
-
-    const to = process.env.INTAKE_TO_EMAIL || 'hello@myllm.news';
-    const from = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
     await resend.emails.send({
-      from,
-      to,
+      from: 'hello@askgizelle.com',
+      to: 'hello@myllm.news',
       replyTo: email,
-      subject: `Scent Logic Intake — ${name}`,
-      text: `Name: ${name}
-Email: ${email}
-Monthly Budget: ${budget}
-Brand Stage: ${brandStage}
-Details: ${details || 'N/A'}`,
+      subject: `Partnership Intake — ${name}`,
+      text: `New intake submission\n\nName: ${name}\nEmail: ${email}\nMonthly Budget: ${budget}\nBrand Stage: ${brandStage}\nDetails: ${details || 'N/A'}\nTime: ${new Date().toISOString()}`,
     });
 
-    return NextResponse.json({ ok: true });
+    return Response.json({ ok: true });
   } catch {
-    return NextResponse.json({ error: 'Failed to send intake.' }, { status: 500 });
+    return Response.json({ error: 'Unable to submit intake.' }, { status: 500 });
   }
 }

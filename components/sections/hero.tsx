@@ -116,14 +116,27 @@ export const MinimalistHero = ({
         </motion.button>
       </header>
 
-      <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center gap-4 py-4 sm:gap-6 md:grid-cols-3 md:gap-0 md:py-0">
+      <div className="relative grid w-full max-w-7xl flex-grow grid-cols-1 items-center gap-6 py-4 sm:gap-8 md:grid-cols-[1.25fr_0.75fr] md:gap-10 md:py-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1 }}
-          className="z-20 order-3 text-center md:order-1 md:text-left"
+          className="z-30 order-2 flex w-full flex-col items-center text-center md:order-1 md:items-start md:text-left md:max-w-2xl"
         >
-          <p className="mx-auto max-w-[34ch] text-sm leading-relaxed text-foreground/80 md:mx-0 md:max-w-xs">
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={`${overlayText.part1}-${overlayText.part2}`}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[clamp(3rem,15vw,8rem)] font-extrabold leading-[0.92] tracking-[0.01em] [font-kerning:none] text-foreground"
+            >
+              {overlayText.part1}
+              {overlayText.part2 ? <><br />{overlayText.part2}</> : null}
+            </motion.h1>
+          </AnimatePresence>
+          <p className="mt-6 w-full max-w-none text-sm leading-relaxed text-foreground/80 md:mx-0">
             {mainText}
           </p>
           <a
@@ -134,7 +147,7 @@ export const MinimalistHero = ({
           </a>
         </motion.div>
 
-        <div className="relative order-1 flex h-full items-center justify-center overflow-visible md:order-2">
+        <div className="relative order-1 flex h-full items-center justify-center overflow-visible md:order-2 md:justify-end">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -155,28 +168,6 @@ export const MinimalistHero = ({
             }}
           />
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="z-30 order-2 flex min-w-0 items-center justify-center text-center md:order-3 md:justify-start"
-        >
-          <AnimatePresence mode="wait">
-            <motion.h1
-              key={`${overlayText.part1}-${overlayText.part2}`}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(3rem,10vw,4.25rem)] font-extrabold leading-[0.88] tracking-tighter text-foreground md:text-[clamp(5rem,8vw,7.5rem)] lg:text-[8.5rem]"
-            >
-              {overlayText.part1}
-              <br />
-              {overlayText.part2}
-            </motion.h1>
-          </AnimatePresence>
-        </motion.div>
       </div>
 
       <footer className="z-30 flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 sm:gap-4">

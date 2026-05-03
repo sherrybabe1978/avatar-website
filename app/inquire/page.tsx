@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import Script from 'next/script';
 import { FormEvent, useState } from 'react';
+import { ScrollTopButton } from '@/components/ui/scroll-top-button';
 
 export default function InquirePage() {
   const [name, setName] = useState('');
@@ -10,59 +10,43 @@ export default function InquirePage() {
   const [budget, setBudget] = useState('');
   const [brandStage, setBrandStage] = useState('');
   const [details, setDetails] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setStatus('loading');
     setMessage('');
 
     try {
-      const formData = new FormData(e.currentTarget);
-      const turnstileToken = formData.get('cf-turnstile-response');
+      const response = await fetch('/api/inquire', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, budget, brandStage, details }),
+      });
+      const data = (await response.json()) as { error?: string };
 
-      if (!turnstileToken || typeof turnstileToken !== 'string') {
-        setMessage('Please complete the security check.');
+      if (!response.ok) {
+        setStatus('error');
+        setMessage(data.error || 'Something went wrong.');
         return;
       }
 
-      const response = await fetch('/api/inquire', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          budget,
-          brandStage,
-          details,
-          turnstileToken,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit intake form.');
-      }
-
-      setMessage('Thanks, your intake has been sent.');
+      setStatus('success');
+      setMessage('Thanks — your intake was submitted.');
       setName('');
       setEmail('');
       setBudget('');
       setBrandStage('');
       setDetails('');
     } catch {
-      setMessage('Something went wrong. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+      setStatus('error');
+      setMessage('Something went wrong.');
     }
   };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-background px-6 py-10 text-foreground md:px-12">
-      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
       <div className="pointer-events-none absolute inset-0 opacity-40">
         <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
         <div className="absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
@@ -154,27 +138,19 @@ export default function InquirePage() {
                 placeholder="Current audience, goals, timeline..."
               />
             </label>
-            {turnstileSiteKey ? (
-              <div className="md:col-span-2">
-                <div className="cf-turnstile" data-sitekey={turnstileSiteKey} />
-              </div>
-            ) : (
-              <p className="md:col-span-2 text-sm text-foreground/75">
-                Missing NEXT_PUBLIC_TURNSTILE_SITE_KEY.
-              </p>
-            )}
 
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={status === 'loading'}
               className="md:col-span-2 inline-flex w-fit items-center border border-white/30 bg-foreground px-5 py-2.5 text-sm font-medium text-background transition hover:opacity-90"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit Intake'}
+              {status === 'loading' ? 'Submitting...' : 'Submit Intake'}
             </button>
-            {message ? <p className="md:col-span-2 text-sm text-foreground/75">{message}</p> : null}
+            {message ? <p className="md:col-span-2 text-sm text-foreground/80">{message}</p> : null}
           </form>
         </div>
       </div>
+      <ScrollTopButton />
     </main>
   );
 }
