@@ -130,10 +130,20 @@ export const MinimalistHero = ({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(3rem,15vw,8rem)] font-extrabold leading-[0.92] tracking-[0.01em] [font-kerning:none] text-foreground"
+              className={cn(
+                'font-extrabold leading-[0.92] tracking-[0.01em] [font-kerning:none] text-foreground',
+                overlayText.part2
+                  ? 'text-[clamp(3rem,15vw,8rem)]'
+                  : 'text-[clamp(1.5rem,7.5vw,6rem)]'
+              )}
             >
               {overlayText.part1}
-              {overlayText.part2 ? <><br />{overlayText.part2}</> : null}
+              {overlayText.part2 ? (
+                <>
+                  <br />
+                  <span className="text-[0.3em] leading-none">{overlayText.part2}</span>
+                </>
+              ) : null}
             </motion.h1>
           </AnimatePresence>
           <p className="mt-6 w-full max-w-none text-sm leading-relaxed text-foreground/80 md:mx-0">
